@@ -1,19 +1,19 @@
 const { app, BrowserWindow } = require('electron');
-require('electron-reload')(__dirname);
+const path = require('path');
 
 
-function createWindow () {
-    // Create the browser window.
+function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
-            nodeIntegration: true
-        }
+            preload: path.join(__dirname, 'preload.js'), // Ensure you have the correct path to your preload script
+            contextIsolation: true,
+            enableRemoteModule: false, // It's recommended to keep remote module disabled for security reasons
+        },
     });
 
-    // and load the index.html of the app.
-    win.loadFile('index.html');
+    win.loadFile('index.html'); // Load your HTML file
 }
 
 app.whenReady().then(createWindow);
